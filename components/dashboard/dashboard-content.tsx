@@ -25,7 +25,7 @@ import type { EnableSessionResult } from '../../lib/zerodev-session-key'
 
 const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL!
 
-export default function DashboardContent({ sessionUserId }: { sessionUserId: string }) {
+export default function DashboardContent({ access_token }: { access_token: string }) {
   const [activeTab, setActiveTab] = useState('home')
   const [terminalOpen, setTerminalOpen] = useState(false)
 
@@ -275,7 +275,7 @@ export default function DashboardContent({ sessionUserId }: { sessionUserId: str
 
   const sseHandlers = handleSSEHandlers()
 
-  useSSE(sseEnabled, baseUrl, sseHandlers)
+  useSSE(sseEnabled, baseUrl, sseHandlers, access_token)
 
   const navigationTabs = [
     { id: 'home', label: 'Home' },

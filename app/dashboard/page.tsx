@@ -11,5 +11,5 @@ export default async function DashboardPage() {
 
   const session = await getSession()
 
-  return <DashboardContent sessionUserId={session?.value ?? ''} />
+  return <DashboardContent access_token={session?.value!} />
 }

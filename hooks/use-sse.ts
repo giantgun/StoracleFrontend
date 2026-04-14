@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import type { SSEEventEnvelope, SSEEventType } from "@/lib/types/sse-events";
+import { access } from "fs";
 
 type SSEEventHandler = (data: Record<string, unknown>) => void;
 
@@ -22,7 +23,8 @@ interface SSEHandlers {
 export function useSSE(
   enabled: boolean,
   baseUrl: string,
-  handlers: SSEHandlers
+  handlers: SSEHandlers,
+  access_token: string
 ) {
   const handlersRef = useRef(handlers);
   handlersRef.current = handlers;
@@ -34,7 +36,7 @@ export function useSSE(
     let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
 
     function connect() {
-      eventSource = new EventSource(`${baseUrl}/events`, {
+      eventSource = new EventSource(`${baseUrl}/events?access_token=${access_token}`, {
         withCredentials: true,
       });
 
