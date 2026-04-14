@@ -3,7 +3,7 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-const baseUrl = 'http://localhost:4000'
+const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL!
 
 export async function simulatePurchase(itemId: string, quantitySold: number) {
   const cookieStore = await cookies()

@@ -5,7 +5,7 @@ import { Supplier, ApiResponse, SuppliersResponse } from '../types'
 import { ServerSupplier } from '../types/sse-events'
 import { cookies } from 'next/headers'
 
-const baseUrl = "http://localhost:4000"
+const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL!
 
 /** Fetch suppliers from the real server via the dashboard bootstrap endpoint. */
 export async function getSuppliers(): Promise<ApiResponse<ServerSupplier[]>> {

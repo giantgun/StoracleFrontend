@@ -74,7 +74,7 @@ Storacle frontend is an AI-powered inventory and treasury management dashboard b
 
 All API calls go through **Next.js Server Actions** (`'use server'` directive) in `/lib/actions/`:
 
-- Base URL: `http://localhost:4000`
+- Base URL: `process.env.NEXT_PUBLIC_SERVER_URL!`
 - Auth via HTTP-only cookie `access_token` passed as `Authorization: Bearer {token}`
 - Each domain has its own action file
 

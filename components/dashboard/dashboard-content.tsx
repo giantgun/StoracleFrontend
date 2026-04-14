@@ -23,7 +23,7 @@ import type {
 } from '../../lib/types/sse-events'
 import type { EnableSessionResult } from '../../lib/zerodev-session-key'
 
-const baseUrl = "http://localhost:4000"
+const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL!
 
 export default function DashboardContent({ sessionUserId }: { sessionUserId: string }) {
   const [activeTab, setActiveTab] = useState('home')
@@ -90,7 +90,7 @@ export default function DashboardContent({ sessionUserId }: { sessionUserId: str
       }
 
       if (eventType === 'restock') {
-        
+
       }
     },
 
@@ -316,7 +316,7 @@ export default function DashboardContent({ sessionUserId }: { sessionUserId: str
                   {notifications.filter(n => !n.read).length}
                 </span>
               )}
-              </button>
+            </button>
           ))}
         </nav>
 

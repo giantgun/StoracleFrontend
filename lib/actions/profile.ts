@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { destroySession } from '../utils/session'
 import { cookies } from 'next/headers'
 
-const baseUrl = "http://localhost:4000"
+const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL!
 
 export async function updateUserProfile(
   data: { orgName: string; firstName: string; lastName: string; businessEmail: string }

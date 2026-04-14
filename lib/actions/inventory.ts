@@ -5,7 +5,7 @@ import { InventoryItem, ApiResponse, InventoryResponse } from '../types'
 import { ServerInventoryItem } from '../types/sse-events'
 import { cookies } from 'next/headers'
 
-const baseUrl = "http://localhost:4000"
+const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL!
 
 /** Fetch inventory items from the real server via the dashboard bootstrap endpoint. */
 export async function getInventoryItems(): Promise<ApiResponse<ServerInventoryItem[]>> {

@@ -8,7 +8,7 @@ import { randomBytes } from 'crypto'
 import { redirect } from 'next/navigation'
 import { EnableSessionResult } from '../zerodev-session-key'
 
-const baseUrl = "http://localhost:4000"
+const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL!
 
 export async function signup(
   firstName: string,
@@ -379,7 +379,7 @@ export async function saveSessionApproval(result: EnableSessionResult): Promise<
   }
 
   const data = await response.json();
-   console.log(data)
+  console.log(data)
   return {
     success: true,
     data: data,

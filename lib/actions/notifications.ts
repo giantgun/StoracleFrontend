@@ -5,7 +5,7 @@ import { ApiResponse } from '../types'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-const baseUrl = "http://localhost:4000"
+const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL!
 
 /** Fetch notifications from the real server via the dashboard bootstrap endpoint. */
 export async function getNotifications(): Promise<ApiResponse<ServerNotification[]>> {
