@@ -386,3 +386,37 @@ export async function saveSessionApproval(result: EnableSessionResult): Promise<
     timestamp: Date.now(),
   }
 }
+
+export async function revokeSessionKeyApproval(): Promise<ApiResponse<any>> {
+
+  const cookieStore = await cookies()
+  const token = cookieStore.get('access_token')?.value
+
+  if (!token) {
+    redirect("/onboarding")
+  }
+
+  const response = await fetch(`${baseUrl}/wallet/session-revoke`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    return {
+      success: false,
+      data: {},
+      timestamp: Date.now(),
+    }
+  }
+
+  const data = await response.json();
+  console.log(data)
+  return {
+    success: true,
+    data: data,
+    timestamp: Date.now(),
+  }
+}

@@ -11,7 +11,7 @@ import ProfileSection, { FullProfile } from './sections/ProfileSection'
 import AITerminal from './terminal/AITerminal'
 import DesktopCompactTerminal from './terminal/DesktopCompactTerminal'
 import { useSSE } from '../../hooks/use-sse'
-import { getDashboardData, saveSessionApproval, toggleAgentActiveForOrg } from '../../lib/actions/auth'
+import { getDashboardData, revokeSessionKeyApproval, saveSessionApproval, toggleAgentActiveForOrg } from '../../lib/actions/auth'
 import { markNotificationAsRead } from '../../lib/actions/notifications'
 import type {
   ServerInventoryItem,
@@ -22,6 +22,7 @@ import type {
   LogType,
 } from '../../lib/types/sse-events'
 import type { EnableSessionResult } from '../../lib/zerodev-session-key'
+import { confirmItemTransit } from '@/lib/actions/inventory'
 
 const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL!
 
@@ -238,11 +239,10 @@ export default function DashboardContent({ access_token }: { access_token: strin
   const handleRevokeSession = async () => {
     try {
       await toggleAgentActiveForOrg(false)
-      await fetch(`${baseUrl}/wallet/session-revoke`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-      })
+      const data = await revokeSessionKeyApproval()
+      if (!data.success) {
+        throw new Error('Failed to revoke session on server')
+      }
     } catch (err) {
       console.error('Failed to revoke session on server:', err)
     }
@@ -255,13 +255,8 @@ export default function DashboardContent({ access_token }: { access_token: strin
 
   const handleConfirmTransit = async (orderId: string) => {
     try {
-      const res = await fetch(`${baseUrl}/items/transit`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ inventory_event_id: orderId }),
-      })
-      if (!res.ok) {
+      const res = await confirmItemTransit(orderId)
+      if (!res.success) {
         toast.error('Failed to confirm transit — server returned an error')
         return
       }

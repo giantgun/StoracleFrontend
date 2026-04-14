@@ -149,3 +149,40 @@ export async function deleteInventoryItem(
     timestamp: Date.now(),
   }
 }
+
+export async function confirmItemTransit(
+  orderId: string,
+): Promise<ApiResponse<InventoryItem | any>> {
+
+  const cookieStore = await cookies()
+  const token = cookieStore.get('access_token')?.value
+
+  if (!token) {
+    redirect("/onboarding")
+  }
+
+  const response = await fetch(`${baseUrl}/items/transit`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ inventory_event_id: orderId }),
+  })
+
+  if (!response.ok) {
+    return {
+      success: false,
+      data: {},
+      timestamp: Date.now(),
+    }
+  }
+
+  const data = await response.json()
+
+  return {
+    success: true,
+    data: data,
+    timestamp: Date.now(),
+  }
+}
