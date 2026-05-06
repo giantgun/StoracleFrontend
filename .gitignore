@@ -13,6 +13,7 @@ node_modules/
 # Markdown files (except CLAUDE.md and next_steps.md)
 *.md
 !CLAUDE.md
+!README.md
 !next_steps.md
 
 # Editor and IDE
